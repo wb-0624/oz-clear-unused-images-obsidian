@@ -1,3 +1,10 @@
+# Statement
+
+Original project address: https://github.com/ozntel/oz-clear-unused-images-obsidian
+
+The original author has not merged  the request of support 'webp' files. So I forked the project and implemented it myself.
+
+
 # Obsidian Plugin for Clearing Unused Images
 
 This plugin helps you to keep your vault clean by deleting the images you are not referencing in your markdown notes anymore.
