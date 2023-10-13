@@ -1,15 +1,21 @@
-import { App, TFile } from 'obsidian';
+import { App, Plugin, TFile } from 'obsidian';
 import OzanClearImages from './main';
 import { getAllLinkMatchesInFile, LinkMatch } from './linkDetector';
 
 /* ------------------ Image Handlers  ------------------ */
 
-const imageRegex = /.*(jpe?g|png|gif|svg|bmp|webp)/i;
+// const imageTypes = plugin.settings.
+let imageRegex = /.*(jpeg|jpg|png|gif|svg|bmp|webp)/i;
 const bannerRegex = /!\[\[(.*?)\]\]/i;
-const imageExtensions: Set<string> = new Set(['jpeg', 'jpg', 'png', 'gif', 'svg', 'bmp', 'webp']);
+let imageExtensions: Set<string> = new Set(['jpeg', 'jpg', 'png', 'gif', 'svg', 'bmp', 'webp']);
 
 // Create the List of Unused Images
-export const getUnusedAttachments = async (app: App, type: 'image' | 'all') => {
+export const getUnusedAttachments = async (plugin:OzanClearImages, app: App, type: 'image' | 'all') => {
+    var imageTypes = plugin.settings.imageTypes;
+    imageRegex = new RegExp('.*(' + imageTypes + ')', 'i');
+    imageExtensions.clear()
+    var imageExtensionsList = imageTypes.split('|')
+    imageExtensions = new Set(imageExtensionsList)
     var allAttachmentsInVault: TFile[] = getAttachmentsInVault(app, type);
     var unusedAttachments: TFile[] = [];
     var usedAttachmentsSet: Set<string>;

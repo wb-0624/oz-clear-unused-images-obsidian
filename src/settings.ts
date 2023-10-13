@@ -7,6 +7,7 @@ export interface OzanClearImagesSettings {
     excludedFolders: string;
     ribbonIcon: boolean;
     excludeSubfolders: boolean;
+    imageTypes:string;
 }
 
 export const DEFAULT_SETTINGS: OzanClearImagesSettings = {
@@ -15,6 +16,7 @@ export const DEFAULT_SETTINGS: OzanClearImagesSettings = {
     excludedFolders: '',
     ribbonIcon: false,
     excludeSubfolders: false,
+    imageTypes:'jpeg|jpg|png|gif|svg|bmp|webp',
 };
 
 export class OzanClearImagesSettingsTab extends PluginSettingTab {
@@ -86,6 +88,17 @@ export class OzanClearImagesSettingsTab extends PluginSettingTab {
             .addToggle((toggle) =>
                 toggle.setValue(this.plugin.settings.excludeSubfolders).onChange((value) => {
                     this.plugin.settings.excludeSubfolders = value;
+                    this.plugin.saveSettings();
+                })
+            );
+
+        new Setting(containerEl)
+            .setName('Support File Type')
+            .setDesc(`Provide the more type names (Case Sensitive) divided by (|). 
+                    i.e. 'jpeg|svg'`)
+            .addTextArea((text)=>
+                text.setValue(this.plugin.settings.imageTypes).onChange((value)=>{
+                    this.plugin.settings.imageTypes = value;
                     this.plugin.saveSettings();
                 })
             );
